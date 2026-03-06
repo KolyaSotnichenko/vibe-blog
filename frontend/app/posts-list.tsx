@@ -16,6 +16,9 @@ export function PostsList({ apiClient }: PostsListProps) {
   const [posts, setPosts] = useState<Post[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [deleteSuccess, setDeleteSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -54,8 +57,33 @@ export function PostsList({ apiClient }: PostsListProps) {
 
   return (
     <ul>
+      {deleteSuccess && <p>{deleteSuccess}</p>}
+      {deleteError && <p>{deleteError}</p>}
       {posts.map((post) => (
-        <li key={post.id}>{post.title ?? `Post #${post.id}`}</li>
+        <li key={post.id}>
+          {post.title ?? `Post #${post.id}`}
+          <button
+            onClick={async () => {
+              const confirmed = window.confirm('Ви впевнені, що хочете видалити пост?');
+              if (!confirmed) return;
+              setDeletingId(post.id);
+              setDeleteError(null);
+              setDeleteSuccess(null);
+              try {
+                await apiClient.deletePost(post.id);
+                setPosts((prev) => (prev ? prev.filter((p) => p.id !== post.id) : prev));
+                setDeleteSuccess('Пост успішно видалено');
+              } catch (e: unknown) {
+                setDeleteError('Не вдалося видалити пост');
+              } finally {
+                setDeletingId(null);
+              }
+            }}
+            disabled={deletingId === post.id}
+          >
+            {deletingId === post.id ? 'Видалення...' : 'Видалити'}
+          </button>
+        </li>
       ))}
     </ul>
   );
