@@ -60,4 +60,15 @@ export class ApiClient {
 
     return (await response.json()) as unknown[];
   }
+
+  async deletePost(id: number): Promise<void> {
+    const response = await fetch(`${this.baseUrl}/posts/${id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to delete post');
+    }
+  }
 }
