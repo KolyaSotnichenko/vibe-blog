@@ -36,8 +36,9 @@ export function PostCreateForm(): React.ReactElement {
        await api.postPosts({ title: form.title, content: form.content });
        setSuccess(true);
       setForm({ title: "", content: "" });
-    } catch (e: unknown) {
-      setError("Failed to create post");
+     } catch (error: unknown) {
+       void error;
+       setError("Failed to create post");
     } finally {
       setLoading(false);
     }
@@ -45,8 +46,8 @@ export function PostCreateForm(): React.ReactElement {
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
+      onSubmit={(event) => {
+        event.preventDefault();
         void handleSubmit();
       }}
     >

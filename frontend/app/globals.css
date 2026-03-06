@@ -1,11 +1,11 @@
 :root {
-  --background: #f9fafb;
+  --background: #f6f7f9;
   --surface: #ffffff;
-  --foreground: #1f2933;
-  --muted: #6b7280;
-  --primary: #2563eb;
-  --primary-soft: #dbeafe;
-  --border: #e5e7eb;
+  --foreground: #111827;
+  --muted: #4b5563;
+  --primary: #0ea5e9;
+  --primary-soft: #e0f2fe;
+  --border: #d1d5db;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,8 +23,8 @@ body {
 
 body {
   color: var(--foreground);
-  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-  font-family: Georgia, "Times New Roman", serif;
+  background: var(--background);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
