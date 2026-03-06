@@ -47,4 +47,17 @@ export class ApiClient {
 
     return (await response.json()) as Paths['/posts/{id}']['put']['responses'][200];
   }
+
+  async getPosts(): Promise<unknown[]> {
+    const response = await fetch(`${this.baseUrl}/posts`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to load posts');
+    }
+
+    return (await response.json()) as unknown[];
+  }
 }
