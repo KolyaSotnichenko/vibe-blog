@@ -28,8 +28,9 @@ export function PostEditForm({ postId }: PostEditFormProps): React.ReactElement 
           title: (post as unknown as PostFormState).title,
           content: (post as unknown as PostFormState).content,
         });
-      } catch (e: unknown) {
-        setError("Failed to load post");
+       } catch (error: unknown) {
+         void error;
+         setError("Failed to load post");
       } finally {
         setLoading(false);
       }
@@ -47,8 +48,9 @@ export function PostEditForm({ postId }: PostEditFormProps): React.ReactElement 
       const api = new ApiClient("");
       await api.updatePost(postId, form);
       setSuccess(true);
-    } catch (e: unknown) {
-      setError("Failed to update post");
+     } catch (error: unknown) {
+       void error;
+       setError("Failed to update post");
     } finally {
       setSaving(false);
     }
@@ -60,8 +62,8 @@ export function PostEditForm({ postId }: PostEditFormProps): React.ReactElement 
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
+      onSubmit={(event) => {
+        event.preventDefault();
         void handleSubmit();
       }}
     >

@@ -73,9 +73,10 @@ export function PostsList({ apiClient }: PostsListProps) {
                 await apiClient.deletePost(post.id);
                 setPosts((prev) => (prev ? prev.filter((p) => p.id !== post.id) : prev));
                 setDeleteSuccess('Пост успішно видалено');
-              } catch (e: unknown) {
-                setDeleteError('Не вдалося видалити пост');
-              } finally {
+               } catch (error: unknown) {
+                 void error;
+                 setDeleteError('Не вдалося видалити пост');
+               } finally {
                 setDeletingId(null);
               }
             }}
