@@ -18,6 +18,16 @@ pnpm dev
 
 The app will be available at http://localhost:3000
 
+### Backend URL configuration
+
+To connect frontend to backend, define environment variable:
+
+```
+NEXT_PUBLIC_API_URL=http://localhost:3000
+```
+
+This value is used by the API client as a base URL for all backend requests.
+
 ### Scripts
 - `pnpm dev` – start development server
 - `pnpm build` – production build

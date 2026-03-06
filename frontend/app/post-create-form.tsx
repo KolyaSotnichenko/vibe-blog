@@ -8,7 +8,7 @@ interface PostCreateFormState {
   content: string;
 }
 
-export function PostCreateForm(): JSX.Element {
+export function PostCreateForm(): React.ReactElement {
   const [form, setForm] = useState<PostCreateFormState>({ title: "", content: "" });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -31,10 +31,10 @@ export function PostCreateForm(): JSX.Element {
     setError(null);
     setSuccess(false);
 
-    try {
-      const api = new ApiClient("");
-      await api.postPosts();
-      setSuccess(true);
+     try {
+       const api = new ApiClient(process.env.NEXT_PUBLIC_API_URL ?? "");
+       await api.postPosts({ title: form.title, content: form.content });
+       setSuccess(true);
       setForm({ title: "", content: "" });
     } catch (e: unknown) {
       setError("Failed to create post");
