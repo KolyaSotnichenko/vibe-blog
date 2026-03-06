@@ -12,7 +12,7 @@ interface PostFormState {
   content: string;
 }
 
-export function PostEditForm({ postId }: PostEditFormProps): JSX.Element {
+export function PostEditForm({ postId }: PostEditFormProps): React.ReactElement {
   const [form, setForm] = useState<PostFormState>({ title: "", content: "" });
   const [loading, setLoading] = useState<boolean>(true);
   const [saving, setSaving] = useState<boolean>(false);

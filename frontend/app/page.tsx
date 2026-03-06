@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import styles from "./page.module.css";
 import { PostCreateForm } from "./post-create-form";
@@ -5,7 +6,7 @@ import { PostsList } from "./posts-list";
 import { ApiClient } from "../src/api/apiClient";
 
 export default function Home() {
-  const apiClient = new ApiClient('');
+  const apiClient = new ApiClient(process.env.NEXT_PUBLIC_API_URL ?? '');
   return (
     <div className={styles.page}>
       <main className={styles.main}>
