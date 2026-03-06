@@ -1,6 +1,6 @@
 .page {
-  --background: #fafafa;
-  --foreground: #fff;
+  --background: #f8fafc;
+  --foreground: #ffffff;
 
   --text-primary: #000;
   --text-secondary: #666;
@@ -13,8 +13,8 @@
   min-height: 100vh;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
+  font-family: Georgia, "Times New Roman", serif;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
 }
 
 .main {
@@ -26,7 +26,9 @@
   align-items: flex-start;
   justify-content: space-between;
   background-color: var(--foreground);
-  padding: 120px 60px;
+  padding: 96px 56px;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
 }
 
 .intro {
@@ -39,10 +41,10 @@
 
 .intro h1 {
   max-width: 320px;
-  font-size: 40px;
+  font-size: 42px;
   font-weight: 600;
   line-height: 48px;
-  letter-spacing: -2.4px;
+  letter-spacing: -1.6px;
   text-wrap: balance;
   color: var(--text-primary);
 }
