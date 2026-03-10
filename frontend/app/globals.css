@@ -1,22 +1,26 @@
 :root {
-  --background: #f7f7f8;
+  --background: #fafafa;
   --surface: #ffffff;
-  --foreground: #202123;
-  --muted: #6e6e80;
-  --primary: #10a37f;
-  --primary-soft: #e6f6f1;
+  --foreground: #111827;
+  --muted: #6b7280;
+  --primary: #2563eb;
+  --primary-soft: #eff6ff;
   --border: #e5e7eb;
+  --danger: #b91c1c;
+  --success: #15803d;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #343541;
-    --surface: #40414f;
-    --foreground: #ececf1;
-    --muted: #a1a1aa;
-    --primary: #10a37f;
-    --primary-soft: #1f3f38;
-    --border: #565869;
+    --background: #0b0f19;
+    --surface: #111827;
+    --foreground: #f9fafb;
+    --muted: #9ca3af;
+    --primary: #60a5fa;
+    --primary-soft: #0b1220;
+    --border: #1f2937;
+    --danger: #f87171;
+    --success: #4ade80;
   }
 }
 
@@ -50,14 +54,15 @@ a {
     color-scheme: dark;
   }
 }
-/* Post create form styles */
+
 .postForm {
   max-width: 520px;
   margin: 2rem auto;
   padding: 1.5rem;
   border-radius: 12px;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -85,14 +90,16 @@ a {
 .postFormField textarea {
   padding: 0.6rem 0.75rem;
   border-radius: 8px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--foreground);
   font-size: 0.9rem;
 }
 
 .postFormField input:focus,
 .postFormField textarea:focus {
   outline: none;
-  border-color: #0f172a;
+  border-color: var(--primary);
 }
 
 .postFormButton {
@@ -100,7 +107,7 @@ a {
   padding: 0.65rem 1rem;
   border-radius: 9999px;
   border: none;
-  background: #0f172a;
+  background: var(--primary);
   color: #ffffff;
   font-size: 0.9rem;
   font-weight: 500;
@@ -113,11 +120,11 @@ a {
 }
 
 .postFormError {
-  color: #b91c1c;
+  color: var(--danger);
   font-size: 0.85rem;
 }
 
 .postFormSuccess {
-  color: #15803d;
+  color: var(--success);
   font-size: 0.85rem;
 }
