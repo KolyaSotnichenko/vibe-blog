@@ -50,3 +50,74 @@ a {
     color-scheme: dark;
   }
 }
+/* Post create form styles */
+.postForm {
+  max-width: 520px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.postFormTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.postFormField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.postFormField label {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.postFormField input,
+.postFormField textarea {
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.9rem;
+}
+
+.postFormField input:focus,
+.postFormField textarea:focus {
+  outline: none;
+  border-color: #0f172a;
+}
+
+.postFormButton {
+  margin-top: 0.5rem;
+  padding: 0.65rem 1rem;
+  border-radius: 9999px;
+  border: none;
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.postFormButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.postFormError {
+  color: #b91c1c;
+  font-size: 0.85rem;
+}
+
+.postFormSuccess {
+  color: #15803d;
+  font-size: 0.85rem;
+}

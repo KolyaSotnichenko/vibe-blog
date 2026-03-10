@@ -46,35 +46,38 @@ export function PostCreateForm(): React.ReactElement {
 
   return (
     <form
+      className="postForm"
       onSubmit={(event) => {
         event.preventDefault();
         void handleSubmit();
       }}
     >
-      <div>
-        <label>
-          Title
-          <input
-            type="text"
-            value={form.title}
-            onChange={(e) => setForm({ ...form, title: e.target.value })}
-            disabled={loading}
-          />
-        </label>
+      <h2 className="postFormTitle">Create post</h2>
+      <div className="postFormField">
+        <label htmlFor="title">Title</label>
+        <input
+          id="title"
+          type="text"
+          value={form.title}
+          onChange={(e) => setForm({ ...form, title: e.target.value })}
+          disabled={loading}
+          placeholder="Post title"
+        />
       </div>
-      <div>
-        <label>
-          Content
-          <textarea
-            value={form.content}
-            onChange={(e) => setForm({ ...form, content: e.target.value })}
-            disabled={loading}
-          />
-        </label>
+      <div className="postFormField">
+        <label htmlFor="content">Content</label>
+        <textarea
+          id="content"
+          value={form.content}
+          onChange={(e) => setForm({ ...form, content: e.target.value })}
+          disabled={loading}
+          placeholder="Write your post..."
+          rows={5}
+        />
       </div>
-      {error && <p role="alert">{error}</p>}
-      {success && <p>Post created successfully</p>}
-      <button type="submit" disabled={loading}>
+      {error && <p className="postFormError" role="alert">{error}</p>}
+      {success && <p className="postFormSuccess">Post created successfully</p>}
+      <button className="postFormButton" type="submit" disabled={loading}>
         {loading ? "Creating..." : "Create Post"}
       </button>
     </form>
