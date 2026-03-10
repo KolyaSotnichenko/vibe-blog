@@ -56,36 +56,39 @@ export function PostsList({ apiClient }: PostsListProps) {
   }
 
   return (
-    <ul>
+    <section aria-labelledby="recent-posts-title">
+      <h2 id="recent-posts-title">Recent posts</h2>
       {deleteSuccess && <p>{deleteSuccess}</p>}
       {deleteError && <p>{deleteError}</p>}
-      {posts.map((post) => (
-        <li key={post.id}>
-          {post.title ?? `Post #${post.id}`}
-          <button
-            onClick={async () => {
-              const confirmed = window.confirm('Ви впевнені, що хочете видалити пост?');
-              if (!confirmed) return;
-              setDeletingId(post.id);
-              setDeleteError(null);
-              setDeleteSuccess(null);
-              try {
-                await apiClient.deletePost(post.id);
-                setPosts((prev) => (prev ? prev.filter((p) => p.id !== post.id) : prev));
-                setDeleteSuccess('Пост успішно видалено');
-               } catch (error: unknown) {
-                 void error;
-                 setDeleteError('Не вдалося видалити пост');
-               } finally {
-                setDeletingId(null);
-              }
-            }}
-            disabled={deletingId === post.id}
-          >
-            {deletingId === post.id ? 'Видалення...' : 'Видалити'}
-          </button>
-        </li>
-      ))}
-    </ul>
+      <ul>
+        {posts.map((post) => (
+          <li key={post.id}>
+            <span>{post.title ?? `Post #${post.id}`}</span>
+            <button
+              onClick={async () => {
+                const confirmed = window.confirm('Ви впевнені, що хочете видалити пост?');
+                if (!confirmed) return;
+                setDeletingId(post.id);
+                setDeleteError(null);
+                setDeleteSuccess(null);
+                try {
+                  await apiClient.deletePost(post.id);
+                  setPosts((prev) => (prev ? prev.filter((p) => p.id !== post.id) : prev));
+                  setDeleteSuccess('Пост успішно видалено');
+                } catch (error: unknown) {
+                  void error;
+                  setDeleteError('Не вдалося видалити пост');
+                } finally {
+                  setDeletingId(null);
+                }
+              }}
+              disabled={deletingId === post.id}
+            >
+              {deletingId === post.id ? 'Видалення...' : 'Видалити'}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
