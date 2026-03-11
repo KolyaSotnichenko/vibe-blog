@@ -1,20 +1,20 @@
-## Quickstart
+## Frontend Project
 
-This repository contains frontend project scaffolding guidance and an OpenAPI specification.
-
-## Prerequisites
+### Requirements
 - Node.js >= 18
-- npm, yarn, or pnpm
+- npm or pnpm
 
-## Setup
-1. Install dependencies:
-   - `npm install`
-2. Generate the OpenAPI client from `.vibe/openapi/openapi.json` using the project generator.
-3. Start the development server:
-   - `npm run dev`
+### Setup
+1. Install dependencies
+   ```bash
+   npm install
+   ```
 
-## Notes
-- Use the generated client exclusively through a centralized API layer.
-- Follow mandatory rules in `AGENT.md`.
+2. Run development server
+   ```bash
+   npm run dev
+   ```
 
-See `AGENT.md` for mandatory implementation rules.
+### Notes
+- Project initialized following AGENT.md rules
+- API integration must follow OpenAPI contract in `.vibe/openapi/openapi.json`
