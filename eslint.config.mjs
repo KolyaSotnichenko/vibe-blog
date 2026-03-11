@@ -13,6 +13,15 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    rules: {
+      'no-restricted-globals': [
+        'error',
+        { name: 'localStorage', message: 'Do not store sensitive data; use httpOnly cookies or memory.' },
+        { name: 'sessionStorage', message: 'Do not store sensitive data; use httpOnly cookies or memory.' },
+      ],
+    },
+  },
 ]);
 
 export default eslintConfig;
