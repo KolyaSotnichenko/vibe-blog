@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { getPostById, updatePost } from "@/src/api/posts";
+import { getPostById, updatePost, deletePost } from "@/src/api/posts";
 import { Post } from "@/src/api/types";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
@@ -24,6 +24,10 @@ export default function PostPage() {
 
   const mutation = useMutation({
     mutationFn: async () => updatePost(id, { title, content }),
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async () => deletePost(id),
   });
 
   const query = useQuery<Post, Error>({
@@ -92,6 +96,30 @@ export default function PostPage() {
           <p className="text-sm text-green-600">Пост оновлено</p>
         )}
       </form>
+
+      <div className="mt-10 border-t pt-6">
+        <h2 className="mb-2 text-lg font-medium">Видалення поста</h2>
+        <p className="mb-4 text-sm text-gray-600">
+          Цю дію неможливо скасувати. Ви впевнені, що хочете видалити пост?
+        </p>
+        <button
+          className="rounded bg-red-600 px-4 py-2 text-white disabled:opacity-50"
+          disabled={deleteMutation.isPending}
+          onClick={() => {
+            if (confirm("Підтвердити видалення поста?")) {
+              deleteMutation.mutate();
+            }
+          }}
+        >
+          Видалити пост
+        </button>
+        {deleteMutation.isError && (
+          <p className="mt-2 text-sm text-red-600">Помилка видалення поста</p>
+        )}
+        {deleteMutation.isSuccess && (
+          <p className="mt-2 text-sm text-green-600">Пост видалено</p>
+        )}
+      </div>
     </div>
   );
 }

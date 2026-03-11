@@ -33,3 +33,9 @@ export async function createPost(input: CreatePostInput): Promise<Post> {
     body: JSON.stringify(input),
   });
 }
+
+export async function deletePost(id: number): Promise<void> {
+  await apiFetch<void>(`/posts/${id}`, {
+    method: "DELETE",
+  });
+}
