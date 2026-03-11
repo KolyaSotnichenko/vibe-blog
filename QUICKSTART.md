@@ -8,10 +8,10 @@ This repository contains frontend project scaffolding guidance and an OpenAPI sp
 
 ## Setup
 1. Install dependencies:
-   - `npm install`
-2. Generate the OpenAPI client from `.vibe/openapi/openapi.json` using the project generator.
+   - `cd frontend && pnpm install`
+2. (Optional) Generate the OpenAPI client from `.vibe/openapi/openapi.json` if required by features.
 3. Start the development server:
-   - `npm run dev`
+   - `cd frontend && pnpm dev`
 
 ## Notes
 - Use the generated client exclusively through a centralized API layer.
