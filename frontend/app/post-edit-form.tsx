@@ -25,8 +25,8 @@ export function PostEditForm({ postId }: PostEditFormProps): React.ReactElement 
         const api = new ApiClient("");
         const post = (await api.getPostById(postId)) as PostFormState;
         setForm({ title: post.title, content: post.content });
-       } catch (error: unknown) {
-          setError("Failed to load post");
+        } catch {
+           setError("Failed to load post");
       } finally {
         setLoading(false);
       }

@@ -36,8 +36,8 @@ export function PostCreateForm(): React.ReactElement {
        await api.postPosts({ title: form.title, content: form.content });
        setSuccess(true);
       setForm({ title: "", content: "" });
-      } catch (error: unknown) {
-        if (error instanceof Error && (error as any).status === 422) {
+       } catch (error: unknown) {
+         if (error instanceof Error && (error as Error & { status?: number }).status === 422) {
           setError("Validation error");
         } else {
           setError("Failed to create post");
