@@ -15,9 +15,11 @@ export class ApiClient {
       body: JSON.stringify(body),
     });
 
-    if (!response.ok) {
-      throw new Error(`Request failed with status ${response.status}`);
-    }
+     if (!response.ok) {
+       const err: any = new Error(`Request failed with status ${response.status}`);
+       err.status = response.status;
+       throw err;
+     }
 
     return (await response.json()) as Paths['/posts']['post']['responses'][201];
   }
