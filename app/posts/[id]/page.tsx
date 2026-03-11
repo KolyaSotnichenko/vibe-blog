@@ -2,8 +2,10 @@
 
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { getPostById } from "@/src/api/posts";
+import { getPostById, updatePost } from "@/src/api/posts";
 import { Post } from "@/src/api/types";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 
 function StatusMessage({ message }: { message: string }) {
   return (
@@ -16,6 +18,13 @@ function StatusMessage({ message }: { message: string }) {
 export default function PostPage() {
   const params = useParams<{ id: string }>();
   const id = Number(params.id);
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const mutation = useMutation({
+    mutationFn: async () => updatePost(id, { title, content }),
+  });
 
   const query = useQuery<Post, Error>({
     queryKey: ["post", id],
@@ -44,14 +53,45 @@ export default function PostPage() {
   if (!post) {
     return <StatusMessage message="Пост не знайдено." />;
   }
+  if (title === "" && content === "") {
+    setTitle(post.title);
+    setContent(post.excerpt);
+  }
 
   return (
-    <article className="mx-auto max-w-3xl px-4 py-16">
-      <h1 className="mb-2 text-3xl font-semibold">{post.title}</h1>
-      <div className="mb-8 text-sm text-gray-500">
-        <span>Post #{post.id}</span> · <span>{new Date(post.createdAt).toLocaleDateString()}</span>
-      </div>
-      <div className="prose prose-neutral max-w-none">{post.excerpt}</div>
-    </article>
+    <div className="mx-auto max-w-3xl px-4 py-16">
+      <h1 className="mb-6 text-2xl font-semibold">Редагування поста</h1>
+      <form
+        className="space-y-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          mutation.mutate();
+        }}
+      >
+        <input
+          className="w-full rounded border px-3 py-2"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <textarea
+          className="w-full rounded border px-3 py-2"
+          rows={6}
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+        <button
+          className="rounded bg-black px-4 py-2 text-white disabled:opacity-50"
+          disabled={mutation.isPending}
+        >
+          Зберегти
+        </button>
+        {mutation.isError && (
+          <p className="text-sm text-red-600">Помилка оновлення поста</p>
+        )}
+        {mutation.isSuccess && (
+          <p className="text-sm text-green-600">Пост оновлено</p>
+        )}
+      </form>
+    </div>
   );
 }
