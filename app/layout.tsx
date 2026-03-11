@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { QueryProvider } from "../src/providers/QueryProvider";
-import { BlogNav } from "../src/components/BlogNav";
+import dynamic from "next/dynamic";
+
+const BlogNav = dynamic(() => import("../src/components/BlogNav").then((m) => m.BlogNav));
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,9 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <QueryProvider>
           <BlogNav />
           {children}
