@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ApiClient } from "../src/api/apiClient";
+ import { useEffect, useState } from "react";
+ import { ApiClient } from "../src/api/apiClient";
 
 interface PostEditFormProps {
   postId: number;
@@ -23,14 +23,10 @@ export function PostEditForm({ postId }: PostEditFormProps): React.ReactElement 
     const load = async (): Promise<void> => {
       try {
         const api = new ApiClient("");
-        const post = await api.getPostById(postId);
-        setForm({
-          title: (post as unknown as PostFormState).title,
-          content: (post as unknown as PostFormState).content,
-        });
+        const post = (await api.getPostById(postId)) as PostFormState;
+        setForm({ title: post.title, content: post.content });
        } catch (error: unknown) {
-         void error;
-         setError("Failed to load post");
+          setError("Failed to load post");
       } finally {
         setLoading(false);
       }
@@ -40,6 +36,10 @@ export function PostEditForm({ postId }: PostEditFormProps): React.ReactElement 
   }, [postId]);
 
   const handleSubmit = async (): Promise<void> => {
+    if (form.title.trim() === "" || form.content.trim() === "") {
+      setError("Title and content are required");
+      return;
+    }
     setSaving(true);
     setError(null);
     setSuccess(false);
@@ -49,11 +49,15 @@ export function PostEditForm({ postId }: PostEditFormProps): React.ReactElement 
       await api.updatePost(postId, form);
       setSuccess(true);
      } catch (error: unknown) {
-       void error;
-       setError("Failed to update post");
-    } finally {
-      setSaving(false);
-    }
+        const err = error as Error & { status?: number };
+        if (err.status === 422) {
+          setError("Validation error");
+        } else {
+          setError("Failed to update post");
+        }
+     } finally {
+       setSaving(false);
+     }
   };
 
   if (loading) {
