@@ -8,11 +8,7 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 
 function StatusMessage({ message }: { message: string }) {
-  return (
-    <div className="mx-auto max-w-3xl py-16 text-center text-sm text-gray-500">
-      {message}
-    </div>
-  );
+  return <div className="mx-auto max-w-3xl py-16 text-center text-sm text-gray-500">{message}</div>;
 }
 
 export default function PostPage() {
@@ -89,11 +85,11 @@ export default function PostPage() {
         >
           Зберегти
         </button>
-        {mutation.isError && (
-          <p className="text-sm text-red-600">Помилка оновлення поста</p>
-        )}
+        {mutation.isError && <p className="text-sm text-red-600">Помилка оновлення поста</p>}
         {mutation.isSuccess && (
-          <p className="text-sm text-green-600">Пост оновлено</p>
+          <p className="text-sm text-green-600" role="status" aria-live="polite">
+            Пост оновлено
+          </p>
         )}
       </form>
 
@@ -117,7 +113,9 @@ export default function PostPage() {
           <p className="mt-2 text-sm text-red-600">Помилка видалення поста</p>
         )}
         {deleteMutation.isSuccess && (
-          <p className="mt-2 text-sm text-green-600">Пост видалено</p>
+          <p className="mt-2 text-sm text-green-600" role="status" aria-live="polite">
+            Пост видалено
+          </p>
         )}
       </div>
     </div>
