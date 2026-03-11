@@ -16,9 +16,9 @@ export class ApiClient {
     });
 
      if (!response.ok) {
-       const err: any = new Error(`Request failed with status ${response.status}`);
-       err.status = response.status;
-       throw err;
+       const error = new Error(`Request failed with status ${response.status}`) as Error & { status?: number };
+       error.status = response.status;
+       throw error;
      }
 
     return (await response.json()) as Paths['/posts']['post']['responses'][201];
@@ -30,9 +30,11 @@ export class ApiClient {
       credentials: 'include',
     });
 
-    if (!response.ok) {
-      throw new Error('Failed to load post');
-    }
+     if (!response.ok) {
+       const error = new Error('Failed to load post') as Error & { status?: number };
+       error.status = response.status;
+       throw error;
+     }
 
     return await response.json();
   }
@@ -45,9 +47,11 @@ export class ApiClient {
       body: JSON.stringify(body),
     });
 
-    if (!response.ok) {
-      throw new Error('Failed to update post');
-    }
+     if (!response.ok) {
+       const error = new Error('Failed to update post') as Error & { status?: number };
+       error.status = response.status;
+       throw error;
+     }
 
     return await response.json();
   }
