@@ -1,0 +1,9 @@
+{
+  "name": "frontend",
+  "private": true,
+  "scripts": {
+    "dev": "node index.js",
+    "build": "node index.js",
+    "start": "node index.js"
+  }
+}
