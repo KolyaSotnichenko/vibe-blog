@@ -74,7 +74,11 @@ export default function CreatePostPage() {
           Create
         </button>
       </form>
-      {success && <p className="text-green-600 mt-4">Post created successfully</p>}
+      {success && (
+        <p className="text-green-600 mt-4" role="status" aria-live="polite">
+          Post created successfully
+        </p>
+      )}
       {error && <p className="text-red-600 mt-4">{error}</p>}
     </div>
   );
