@@ -1,20 +1,27 @@
-## Quickstart
+# Frontend Quickstart
 
-This repository contains frontend project scaffolding guidance and an OpenAPI specification.
+## Requirements
+- Node.js 18+
+- pnpm
 
-## Prerequisites
-- Node.js >= 18
-- npm, yarn, or pnpm
+## Install
+```bash
+pnpm install
+```
 
-## Setup
-1. Install dependencies:
-   - `npm install`
-2. Generate the OpenAPI client from `.vibe/openapi/openapi.json` using the project generator.
-3. Start the development server:
-   - `npm run dev`
+## Development
+```bash
+pnpm dev
+```
+App starts on http://localhost:3000 (or next free port).
 
-## Notes
-- Use the generated client exclusively through a centralized API layer.
-- Follow mandatory rules in `AGENT.md`.
+## Build
+```bash
+pnpm build
+pnpm start
+```
 
-See `AGENT.md` for mandatory implementation rules.
+## Lint
+```bash
+pnpm lint
+```
