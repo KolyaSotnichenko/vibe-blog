@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint .",
+    "format": "prettier --write .",
     "test": "jest",
     "generate:api": "openapi-typescript .vibe/openapi/openapi.json --output src/api/generated.ts"
   },
@@ -33,6 +34,7 @@
     "@testing-library/react": "^16",
     "@testing-library/jest-dom": "^6",
     "ts-node": "^10",
-    "jest-environment-jsdom": "^29"
+    "jest-environment-jsdom": "^29",
+    "prettier": "^3"
   }
 }
