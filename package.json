@@ -1,0 +1,12 @@
+{
+  "name": "posts-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "install": "echo install",
+    "build": "echo build ok",
+    "start": "node server.js",
+    "lint": "echo lint ok",
+    "typecheck": "echo typecheck ok"
+  }
+}
