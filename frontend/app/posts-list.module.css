@@ -1,0 +1,49 @@
+.container {
+  padding: 24px;
+  background-color: #ffffff;
+}
+
+.title {
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #111111;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.itemTitle {
+  color: #333333;
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  color: #cc0000;
+  cursor: pointer;
+}
+
+.state {
+  padding: 24px;
+  color: #555555;
+}
+
+.error {
+  color: #cc0000;
+}
+
+.success {
+  color: #006600;
+}

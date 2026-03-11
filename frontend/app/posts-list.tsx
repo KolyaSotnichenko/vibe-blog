@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { ApiClient } from '../src/api/apiClient';
+import styles from './posts-list.module.css';
 
 interface Post {
   id: number;
-  title?: string;
+  title?: string | null;
 }
 
 interface PostsListProps {
@@ -44,27 +45,28 @@ export function PostsList({ apiClient }: PostsListProps) {
   }, [apiClient]);
 
   if (loading) {
-    return <p>Завантаження...</p>;
+    return <p className={styles.state}>Завантаження...</p>;
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p className={styles.error}>{error}</p>;
   }
 
   if (!posts || posts.length === 0) {
-    return <p>Пости відсутні</p>;
+    return <p className={styles.state}>Пости відсутні</p>;
   }
 
   return (
-    <section aria-labelledby="recent-posts-title">
-      <h2 id="recent-posts-title">Recent posts</h2>
-      {deleteSuccess && <p>{deleteSuccess}</p>}
-      {deleteError && <p>{deleteError}</p>}
-      <ul>
+    <section aria-labelledby="recent-posts-title" className={styles.container}>
+      <h2 id="recent-posts-title" className={styles.title}>Пости</h2>
+      {deleteSuccess && <p className={styles.success}>{deleteSuccess}</p>}
+      {deleteError && <p className={styles.error}>{deleteError}</p>}
+      <ul className={styles.list}>
         {posts.map((post) => (
-          <li key={post.id}>
-            <span>{post.title ?? `Post #${post.id}`}</span>
+          <li key={post.id} className={styles.item}>
+            <span className={styles.itemTitle}>{post.title ?? `Post #${post.id}`}</span>
             <button
+              className={styles.deleteButton}
               onClick={async () => {
                 const confirmed = window.confirm('Ви впевнені, що хочете видалити пост?');
                 if (!confirmed) return;
@@ -75,8 +77,8 @@ export function PostsList({ apiClient }: PostsListProps) {
                   await apiClient.deletePost(post.id);
                   setPosts((prev) => (prev ? prev.filter((p) => p.id !== post.id) : prev));
                   setDeleteSuccess('Пост успішно видалено');
-                } catch (error: unknown) {
-                  void error;
+                } catch (err: unknown) {
+                  void err;
                   setDeleteError('Не вдалося видалити пост');
                 } finally {
                   setDeletingId(null);
