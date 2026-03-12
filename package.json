@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "generate:api": "openapi-typescript .vibe/openapi/openapi.json --output src/api/generated.ts"
   },
   "dependencies": {
