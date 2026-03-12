@@ -1,49 +1,40 @@
-import type { paths } from "./schema";
-import { Fetcher } from "openapi-typescript-fetch";
+export type ApiError = {
+  status: number;
+  message: string;
+  details?: unknown;
+};
 
-export class ApiError extends Error {
-  readonly status: number;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
 
-  constructor(status: number, message: string) {
-    super(message);
-    this.status = status;
-  }
-}
+export async function apiClient<T>(input: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(`${API_BASE_URL}${input}`, {
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      ...(init?.headers ?? {}),
+    },
+    ...init,
+  });
 
-function messageForStatus(status: number): string {
-  switch (status) {
-    case 400:
-      return "Некоректний запит.";
-    case 401:
-      return "Потрібна авторизація.";
-    case 403:
-      return "Доступ заборонено.";
-    case 404:
-      return "Ресурс не знайдено.";
-    case 422:
-      return "Помилка валідації даних.";
-    case 500:
-      return "Внутрішня помилка сервера.";
-    default:
-      return "Невідома помилка.";
-  }
-}
+  if (!res.ok) {
+    let details: unknown = undefined;
+    try {
+      details = await res.json();
+    } catch {
+      // ignore parse error
+    }
 
-export async function apiFetch<T>(input: RequestInfo, init?: RequestInit): Promise<T> {
-  const response = await fetch(input, init);
-
-  if (!response.ok) {
-    const message = messageForStatus(response.status);
-    throw new ApiError(response.status, message);
+    const error: ApiError = {
+      status: res.status,
+      message: res.statusText || "Request failed",
+      details,
+    };
+    throw error;
   }
 
-  return response.json() as Promise<T>;
+  if (res.status === 204) {
+    return undefined as T;
+  }
+
+  return (await res.json()) as T;
 }
-
-const fetcher = Fetcher.for<paths>();
-
-fetcher.configure({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
-});
-
-export const apiClient = fetcher;
