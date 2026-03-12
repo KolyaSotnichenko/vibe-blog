@@ -7,14 +7,8 @@ export function BlogNav() {
         <Link href="/" className="font-medium hover:underline">
           Home
         </Link>
-        <Link href="/posts/new" className="hover:underline">
+        <Link href="/posts/create" className="hover:underline">
           New Post
-        </Link>
-        <Link href="/posts" className="hover:underline">
-          Posts
-        </Link>
-        <Link href="/about" className="hover:underline">
-          About
         </Link>
       </nav>
     </header>
