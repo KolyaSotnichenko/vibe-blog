@@ -1,3 +1,6 @@
+import type { paths } from "./schema";
+import { Fetcher } from "openapi-typescript-fetch";
+
 export class ApiError extends Error {
   readonly status: number;
 
@@ -36,3 +39,11 @@ export async function apiFetch<T>(input: RequestInfo, init?: RequestInit): Promi
 
   return response.json() as Promise<T>;
 }
+
+const fetcher = Fetcher.for<paths>();
+
+fetcher.configure({
+  baseUrl: process.env.NEXT_PUBLIC_API_URL ?? "",
+});
+
+export const apiClient = fetcher;
