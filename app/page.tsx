@@ -21,11 +21,14 @@ export default function Page() {
     <main className="max-w-2xl mx-auto p-8 space-y-6">
       <h1 className="text-3xl font-semibold">Blog</h1>
       <ul className="space-y-4">
+        {data?.length === 0 && <li>No posts yet</li>}
         {data?.map((post) => (
           <li key={post.id} className="border-b pb-4">
-            <h2 className="text-xl font-medium">{post.title}</h2>
-            <p className="text-sm text-gray-500">{post.createdAt}</p>
-            <p className="mt-2 text-gray-700">{post.excerpt}</p>
+            <a href={`/posts/${post.id}`} className="block hover:underline">
+              <h2 className="text-xl font-medium">{post.title}</h2>
+              <p className="text-sm text-gray-500">{post.createdAt}</p>
+              <p className="mt-2 text-gray-700">{post.excerpt}</p>
+            </a>
           </li>
         ))}
       </ul>
