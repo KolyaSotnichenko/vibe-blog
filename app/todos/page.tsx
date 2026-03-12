@@ -1,6 +1,7 @@
 "use client";
 
 import { useTodos } from "@/src/api/todo/queries";
+import { CreateTodoForm } from "@/src/components/todo/CreateTodoForm";
 
 export default function TodosPage() {
   const { data, isLoading, isError, refetch } = useTodos();
@@ -34,6 +35,7 @@ export default function TodosPage() {
   return (
     <div className="mx-auto max-w-3xl p-6">
       <h1 className="mb-6 text-xl font-medium">ToDo</h1>
+      <CreateTodoForm />
       {data && data.length === 0 ? (
         <p className="text-sm text-gray-500">No tasks yet</p>
       ) : (
