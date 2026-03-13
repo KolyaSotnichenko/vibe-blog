@@ -26,8 +26,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}>
-        <QueryProvider>{children}</QueryProvider>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gray-100 text-gray-900`}
+      >
+        <QueryProvider>
+          <header className="sticky top-0 z-50 border-b bg-white">
+            <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4">
+              <div className="font-bold text-lg text-orange-600">MyReddit</div>
+              <div className="flex-1">
+                <input
+                  aria-label="Search"
+                  placeholder="Search"
+                  className="w-full rounded-full border bg-gray-50 px-4 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+              </div>
+            </div>
+          </header>
+          <main className="mx-auto max-w-6xl px-4 py-6">{children}</main>
+        </QueryProvider>
       </body>
     </html>
   );
