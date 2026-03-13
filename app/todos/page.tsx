@@ -17,6 +17,8 @@ export default function TodosPage() {
   const [search, setSearch] = useState<string>("");
   const debouncedSearch = useDebouncedValue(search, 300);
   const { data, isLoading, isError, refetch } = useTodos(debouncedSearch);
+  const PAGE_SIZE = 10;
+  const [page, setPage] = useState<number>(1);
   const deleteTodo = useDeleteTodo();
   const updateTodo = useUpdateTodo();
   const [confirmId, setConfirmId] = useState<string | null>(null);
@@ -46,6 +48,10 @@ export default function TodosPage() {
       </div>
     );
   }
+
+  const totalPages = data ? Math.ceil(data.length / PAGE_SIZE) : 0;
+  const startIndex = (page - 1) * PAGE_SIZE;
+  const paginatedData = data ? data.slice(startIndex, startIndex + PAGE_SIZE) : [];
 
   return (
     <div className="grid grid-cols-1 gap-6">
@@ -94,7 +100,7 @@ export default function TodosPage() {
               </div>
             )}
             <ul className="space-y-3">
-              {data?.map((todo) => (
+              {paginatedData.map((todo) => (
                 <li key={todo.id}>
                   <Card className="hover:bg-gray-50">
                     <div className="flex items-start justify-between gap-4">
@@ -162,6 +168,29 @@ export default function TodosPage() {
                 </li>
               ))}
             </ul>
+            {totalPages > 1 && (
+              <div className="mt-4 flex items-center justify-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={page <= 1}
+                  onClick={() => setPage((p) => p - 1)}
+                >
+                  Previous
+                </Button>
+                <span className="text-sm text-gray-600">
+                  Page {page} of {totalPages}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={page >= totalPages}
+                  onClick={() => setPage((p) => p + 1)}
+                >
+                  Next
+                </Button>
+              </div>
+            )}
           </>
         )}
       </section>
