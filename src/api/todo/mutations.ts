@@ -37,3 +37,13 @@ export function useDeleteTodo() {
     },
   });
 }
+
+export function useDeleteTodosBulk() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (ids: string[]) => todoService.removeBulk(ids),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: todoKeys.all });
+    },
+  });
+}
