@@ -7,6 +7,18 @@
   --border: #f59e0b;
   --radius-sm: 12px;
   --radius-md: 20px;
+  --card: var(--background);
+  --card-foreground: var(--foreground);
+  --primary: 0 0% 9%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 96.1%;
+  --secondary-foreground: 0 0% 9%;
+  --accent: 0 0% 96.1%;
+  --accent-foreground: 0 0% 9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --input: 0 0% 89.8%;
+  --ring: 0 0% 3.9%;
 }
 
 @theme inline {
