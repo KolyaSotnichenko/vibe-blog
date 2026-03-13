@@ -3,11 +3,13 @@
 import { useTodos } from "@/src/api/todo/queries";
 import Link from "next/link";
 import { useDeleteTodo } from "@/src/api/todo/mutations";
+import { useUpdateTodo } from "@/src/api/todo/mutations";
 import { useState } from "react";
 
 export default function TodosPage() {
   const { data, isLoading, isError, refetch } = useTodos();
   const deleteTodo = useDeleteTodo();
+  const updateTodo = useUpdateTodo();
   const [confirmId, setConfirmId] = useState<string | null>(null);
 
   if (isLoading) {
@@ -59,7 +61,20 @@ export default function TodosPage() {
               <div className="flex items-center justify-between gap-3">
                 <div className="flex flex-col">
                   <span className="text-base font-semibold">{todo.title}</span>
-                  <span className="text-xs text-gray-500">{todo.status}</span>
+                  <label className="mt-1 flex items-center gap-2 text-xs text-gray-600">
+                    <input
+                      type="checkbox"
+                      checked={todo.status === "done"}
+                      disabled={updateTodo.isPending}
+                      onChange={() =>
+                        updateTodo.mutate({
+                          id: todo.id,
+                          payload: { status: todo.status === "done" ? "pending" : "done" },
+                        })
+                      }
+                    />
+                    {todo.status === "done" ? "Done" : "Pending"}
+                  </label>
                 </div>
                 {confirmId === todo.id ? (
                   <div className="flex items-center gap-2">
