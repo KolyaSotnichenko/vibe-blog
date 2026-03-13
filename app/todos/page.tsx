@@ -39,73 +39,96 @@ export default function TodosPage() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl p-6">
-      <h1 className="mb-6 text-2xl font-bold text-orange-600">ToDo</h1>
-      <div className="mb-6">
-        <Button asChild>
-          <Link href="/todos/new">Create task</Link>
-        </Button>
-      </div>
-      {data && data.length === 0 ? (
-        <p className="text-sm text-gray-500">No tasks yet</p>
-      ) : (
-        <ul className="space-y-3">
-          {data?.map((todo) => (
-            <li key={todo.id}>
-              <Card>
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex flex-col">
-                    <span className="text-base font-semibold">{todo.title}</span>
-                    <label className="mt-1 flex items-center gap-2 text-xs text-gray-600">
-                      <input
-                        type="checkbox"
-                        checked={todo.status === "done"}
-                        disabled={updateTodo.isPending}
-                        onChange={() =>
-                          updateTodo.mutate({
-                            id: todo.id,
-                            payload: { status: todo.status === "done" ? "pending" : "done" },
-                          })
-                        }
-                      />
-                      {todo.status === "done" ? "Done" : "Pending"}
-                    </label>
-                  </div>
-                  {confirmId === todo.id ? (
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setConfirmId(null)}
-                        disabled={deleteTodo.isPending}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() =>
-                          deleteTodo.mutate(todo.id, { onSuccess: () => setConfirmId(null) })
-                        }
-                        disabled={deleteTodo.isPending}
-                      >
-                        {deleteTodo.isPending ? "Deleting..." : "Confirm"}
-                      </Button>
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
+      <aside className="hidden md:col-span-3 md:block">
+        <div className="rounded-md border bg-white p-4 text-sm text-gray-700">
+          <p className="mb-2 font-semibold">Feeds</p>
+          <p className="text-gray-500">All tasks</p>
+        </div>
+      </aside>
+
+      <section className="md:col-span-6">
+        <div className="mb-4 rounded-md border bg-white p-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-lg font-semibold">Tasks</h1>
+            <Button size="sm" asChild>
+              <Link href="/todos/new">Create</Link>
+            </Button>
+          </div>
+        </div>
+
+        {data && data.length === 0 ? (
+          <p className="text-sm text-gray-500">No tasks yet</p>
+        ) : (
+          <ul className="space-y-3">
+            {data?.map((todo) => (
+              <li key={todo.id}>
+                <Card className="hover:bg-gray-50">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex flex-col">
+                      <span className="text-base font-medium">{todo.title}</span>
+                      <label className="mt-2 flex items-center gap-2 text-xs text-gray-600">
+                        <input
+                          type="checkbox"
+                          checked={todo.status === "done"}
+                          disabled={updateTodo.isPending}
+                          onChange={() =>
+                            updateTodo.mutate({
+                              id: todo.id,
+                              payload: {
+                                status: todo.status === "done" ? "pending" : "done",
+                              },
+                            })
+                          }
+                        />
+                        {todo.status === "done" ? "Completed" : "Pending"}
+                      </label>
                     </div>
-                  ) : (
-                    <Button variant="outline" size="sm" onClick={() => setConfirmId(todo.id)}>
-                      Delete
-                    </Button>
+
+                    {confirmId === todo.id ? (
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setConfirmId(null)}
+                          disabled={deleteTodo.isPending}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() =>
+                            deleteTodo.mutate(todo.id, { onSuccess: () => setConfirmId(null) })
+                          }
+                          disabled={deleteTodo.isPending}
+                        >
+                          Confirm
+                        </Button>
+                      </div>
+                    ) : (
+                      <Button variant="outline" size="sm" onClick={() => setConfirmId(todo.id)}>
+                        Delete
+                      </Button>
+                    )}
+                  </div>
+
+                  {deleteTodo.isError && confirmId === todo.id && (
+                    <Alert className="mt-2">Failed to delete task</Alert>
                   )}
-                </div>
-                {deleteTodo.isError && confirmId === todo.id && (
-                  <Alert className="mt-2">Failed to delete task</Alert>
-                )}
-              </Card>
-            </li>
-          ))}
-        </ul>
-      )}
+                </Card>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <aside className="hidden md:col-span-3 md:block">
+        <div className="rounded-md border bg-white p-4 text-sm text-gray-700">
+          <p className="mb-2 font-semibold">About</p>
+          <p className="text-gray-500">Simple Reddit-style task feed.</p>
+        </div>
+      </aside>
     </div>
   );
 }
