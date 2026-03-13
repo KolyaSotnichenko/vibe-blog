@@ -9,7 +9,20 @@ export const todoKeys = {
 export function useTodos(search?: string) {
   return useQuery({
     queryKey: [...todoKeys.all, search ?? ""],
-    queryFn: () => todoService.list({ search }),
+    queryFn: async () => {
+      const todos = await todoService.list();
+      if (!search) {
+        return todos;
+      }
+      const needle = search.toLowerCase();
+      return todos.filter((todo) => {
+        const titleMatch = todo.title.toLowerCase().includes(needle);
+        const descriptionMatch = todo.description
+          ? todo.description.toLowerCase().includes(needle)
+          : false;
+        return titleMatch || descriptionMatch;
+      });
+    },
   });
 }
 
