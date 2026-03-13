@@ -6,8 +6,9 @@ type CreateTodoRequest = components["schemas"]["CreateTodoRequest"];
 type UpdateTodoRequest = components["schemas"]["UpdateTodoRequest"];
 
 export const todoService = {
-  list(): Promise<Todo[]> {
-    return apiClient<Todo[]>("/todos");
+  list(params?: { search?: string }): Promise<Todo[]> {
+    const query = params?.search ? `?search=${encodeURIComponent(params.search)}` : "";
+    return apiClient<Todo[]>(`/todos${query}`);
   },
 
   get(id: string): Promise<Todo> {
