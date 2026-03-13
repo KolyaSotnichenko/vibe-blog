@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --muted: #6b7280;
-  --border: #e5e7eb;
-  --radius-sm: 4px;
-  --radius-md: 6px;
+  --background: #fef3c7;
+  --foreground: #1f2937;
+  --muted: #4b5563;
+  --border: #f59e0b;
+  --radius-sm: 12px;
+  --radius-md: 20px;
 }
 
 @theme inline {
@@ -24,7 +24,7 @@
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(180deg, #fde68a, #fef3c7);
   color: var(--foreground);
   font-family:
     system-ui,
@@ -32,7 +32,7 @@ body {
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.6;
 }
 
@@ -49,8 +49,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: 500;
-  letter-spacing: -0.01em;
+  font-weight: 700;
 }
 
 h1 {
