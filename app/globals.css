@@ -1,10 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f4f1e9;
+  --paper: #f6f3ec;
   --ink: #1f1f1f;
   --ink-muted: #555555;
-  --rule: #b9b1a6;
+  --rule: #d6cfbf;
+
+  --background: 40 33% 95%;
+  --foreground: 0 0% 12%;
+
+  --primary: 165 45% 33%;
+  --secondary: 40 30% 90%;
+  --accent: 42 55% 86%;
+  --border: 38 20% 80%;
+  --ring: 165 45% 33%;
   --radius-sm: 0px;
   --radius-md: 0px;
 }
