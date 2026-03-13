@@ -34,4 +34,19 @@ export const todoService = {
       method: "DELETE",
     });
   },
+  async removeBulk(
+    ids: string[],
+  ): Promise<{ successIds: string[]; failed: { id: string; error: unknown }[] }> {
+    const successIds: string[] = [];
+    const failed: { id: string; error: unknown }[] = [];
+    for (const id of ids) {
+      try {
+        await this.remove(id);
+        successIds.push(id);
+      } catch (error) {
+        failed.push({ id, error });
+      }
+    }
+    return { successIds, failed };
+  },
 };
