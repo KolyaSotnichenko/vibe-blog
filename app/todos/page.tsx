@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useDeleteTodo } from "@/src/api/todo/mutations";
 import { useUpdateTodo } from "@/src/api/todo/mutations";
 import { useState } from "react";
+import { useBulkTodoSelection } from "@/src/hooks/useBulkTodoSelection";
+import { todoService } from "@/src/api/todo/todoService";
 import { Button } from "@/src/components/ui/button";
 import { Card } from "@/src/components/ui/card";
 import { Alert } from "@/src/components/ui/alert";
@@ -18,6 +20,9 @@ export default function TodosPage() {
   const deleteTodo = useDeleteTodo();
   const updateTodo = useUpdateTodo();
   const [confirmId, setConfirmId] = useState<string | null>(null);
+  const { selectedIds, toggle, clear } = useBulkTodoSelection();
+  const [bulkLoading, setBulkLoading] = useState<boolean>(false);
+  const [bulkError, setBulkError] = useState<string | null>(null);
 
   if (isLoading) {
     return (
@@ -64,66 +69,100 @@ export default function TodosPage() {
         {data && data.length === 0 ? (
           <p className="text-sm text-gray-500">No tasks yet</p>
         ) : (
-          <ul className="space-y-3">
-            {data?.map((todo) => (
-              <li key={todo.id}>
-                <Card className="hover:bg-gray-50">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex flex-col">
-                      <span className="text-base font-medium">{todo.title}</span>
-                      <label className="mt-2 flex items-center gap-2 text-xs text-gray-600">
-                        <input
-                          type="checkbox"
-                          checked={todo.status === "done"}
-                          disabled={updateTodo.isPending}
-                          onChange={() =>
-                            updateTodo.mutate({
-                              id: todo.id,
-                              payload: {
-                                status: todo.status === "done" ? "pending" : "done",
-                              },
-                            })
-                          }
-                        />
-                        {todo.status === "done" ? "Completed" : "Pending"}
-                      </label>
+          <>
+            {selectedIds.size > 0 && (
+              <div className="mb-3 flex items-center gap-2">
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  disabled={bulkLoading}
+                  onClick={async () => {
+                    setBulkLoading(true);
+                    setBulkError(null);
+                    const result = await todoService.removeBulk(Array.from(selectedIds));
+                    setBulkLoading(false);
+                    if (result.failed.length > 0) {
+                      setBulkError("Some tasks failed to delete");
+                    }
+                    clear();
+                    refetch();
+                  }}
+                >
+                  Delete selected ({selectedIds.size})
+                </Button>
+                {bulkError && <Alert>{bulkError}</Alert>}
+              </div>
+            )}
+            <ul className="space-y-3">
+              {data?.map((todo) => (
+                <li key={todo.id}>
+                  <Card className="hover:bg-gray-50">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex flex-col">
+                        <label className="mb-1 flex items-center gap-2 text-xs">
+                          <input
+                            type="checkbox"
+                            checked={selectedIds.has(todo.id)}
+                            disabled={bulkLoading}
+                            onChange={() => toggle(todo.id)}
+                          />
+                          Select
+                        </label>
+                        <span className="text-base font-medium">{todo.title}</span>
+                        <label className="mt-2 flex items-center gap-2 text-xs text-gray-600">
+                          <input
+                            type="checkbox"
+                            checked={todo.status === "done"}
+                            disabled={updateTodo.isPending}
+                            onChange={() =>
+                              updateTodo.mutate({
+                                id: todo.id,
+                                payload: {
+                                  status: todo.status === "done" ? "pending" : "done",
+                                },
+                              })
+                            }
+                          />
+                          {todo.status === "done" ? "Completed" : "Pending"}
+                        </label>
+                      </div>
+
+                      {confirmId === todo.id ? (
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setConfirmId(null)}
+                            disabled={deleteTodo.isPending}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() =>
+                              deleteTodo.mutate(todo.id, { onSuccess: () => setConfirmId(null) })
+                            }
+                            disabled={deleteTodo.isPending}
+                          >
+                            Confirm
+                          </Button>
+                        </div>
+                      ) : (
+                        <Button variant="outline" size="sm" onClick={() => setConfirmId(todo.id)}>
+                          Delete
+                        </Button>
+                      )}
                     </div>
 
-                    {confirmId === todo.id ? (
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setConfirmId(null)}
-                          disabled={deleteTodo.isPending}
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          variant="destructive"
-                          size="sm"
-                          onClick={() =>
-                            deleteTodo.mutate(todo.id, { onSuccess: () => setConfirmId(null) })
-                          }
-                          disabled={deleteTodo.isPending}
-                        >
-                          Confirm
-                        </Button>
-                      </div>
-                    ) : (
-                      <Button variant="outline" size="sm" onClick={() => setConfirmId(todo.id)}>
-                        Delete
-                      </Button>
+                    {deleteTodo.isError && confirmId === todo.id && (
+                      <Alert className="mt-2">Failed to delete task</Alert>
                     )}
-                  </div>
-
-                  {deleteTodo.isError && confirmId === todo.id && (
-                    <Alert className="mt-2">Failed to delete task</Alert>
-                  )}
-                </Card>
-              </li>
-            ))}
-          </ul>
+                  </Card>
+                </li>
+              ))}
+            </ul>
+          </>
         )}
       </section>
     </div>
