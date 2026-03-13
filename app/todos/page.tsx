@@ -38,17 +38,20 @@ export default function TodosPage() {
 
   return (
     <div className="mx-auto max-w-3xl p-6">
-      <h1 className="mb-6 text-xl font-medium">ToDo</h1>
+      <h1 className="mb-6 text-2xl font-bold text-orange-600">ToDo</h1>
       <CreateTodoForm />
       {data && data.length === 0 ? (
         <p className="text-sm text-gray-500">No tasks yet</p>
       ) : (
-        <ul className="divide-y divide-gray-200">
+        <ul className="space-y-3">
           {data?.map((todo) => (
-            <li key={todo.id} className="py-3">
+            <li
+              key={todo.id}
+              className="rounded-2xl border-2 border-orange-300 bg-white p-4 shadow-md"
+            >
               <div className="flex items-center justify-between gap-3">
                 <div className="flex flex-col">
-                  <span className="text-sm text-gray-900">{todo.title}</span>
+                  <span className="text-base font-semibold">{todo.title}</span>
                   <span className="text-xs text-gray-500">{todo.status}</span>
                 </div>
                 {confirmId === todo.id ? (
