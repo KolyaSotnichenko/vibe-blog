@@ -12,7 +12,9 @@ export default function NewTodoPage() {
           Back to list
         </Link>
       </div>
-      <CreateTodoForm />
+      <div className="rounded border p-4">
+        <CreateTodoForm />
+      </div>
     </div>
   );
 }
