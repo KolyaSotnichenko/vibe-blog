@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useCreateTodo } from "@/src/api/todo/mutations";
 import { Card } from "@/src/components/ui/card";
 import { Button } from "@/src/components/ui/button";
@@ -17,6 +18,7 @@ export function CreateTodoForm() {
   const [description, setDescription] = useState("");
   const [error, setError] = useState<string | null>(null);
   const createTodo = useCreateTodo();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,8 +36,7 @@ export function CreateTodoForm() {
 
     try {
       await createTodo.mutateAsync(payload);
-      setTitle("");
-      setDescription("");
+      router.push("/todos");
     } catch (error) {
       void error;
       setError("Failed to create task");
