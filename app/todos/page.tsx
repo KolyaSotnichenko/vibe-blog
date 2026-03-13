@@ -5,6 +5,9 @@ import Link from "next/link";
 import { useDeleteTodo } from "@/src/api/todo/mutations";
 import { useUpdateTodo } from "@/src/api/todo/mutations";
 import { useState } from "react";
+import { Button } from "@/src/components/ui/button";
+import { Card } from "@/src/components/ui/card";
+import { Alert } from "@/src/components/ui/alert";
 
 export default function TodosPage() {
   const { data, isLoading, isError, refetch } = useTodos();
@@ -28,12 +31,9 @@ export default function TodosPage() {
     return (
       <div className="mx-auto max-w-3xl p-6 text-center">
         <p className="mb-4 text-sm text-gray-600">Failed to load tasks</p>
-        <button
-          onClick={() => refetch()}
-          className="rounded border border-gray-300 px-3 py-1 text-sm"
-        >
+        <Button onClick={() => refetch()} variant="outline">
           Retry
-        </button>
+        </Button>
       </div>
     );
   }
@@ -42,71 +42,66 @@ export default function TodosPage() {
     <div className="mx-auto max-w-3xl p-6">
       <h1 className="mb-6 text-2xl font-bold text-orange-600">ToDo</h1>
       <div className="mb-6">
-        <Link
-          href="/todos/new"
-          className="inline-block rounded bg-orange-600 px-4 py-2 text-sm font-semibold text-white"
-        >
-          Create task
-        </Link>
+        <Button asChild>
+          <Link href="/todos/new">Create task</Link>
+        </Button>
       </div>
       {data && data.length === 0 ? (
         <p className="text-sm text-gray-500">No tasks yet</p>
       ) : (
         <ul className="space-y-3">
           {data?.map((todo) => (
-            <li
-              key={todo.id}
-              className="rounded-2xl border-2 border-orange-300 bg-white p-4 shadow-md"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex flex-col">
-                  <span className="text-base font-semibold">{todo.title}</span>
-                  <label className="mt-1 flex items-center gap-2 text-xs text-gray-600">
-                    <input
-                      type="checkbox"
-                      checked={todo.status === "done"}
-                      disabled={updateTodo.isPending}
-                      onChange={() =>
-                        updateTodo.mutate({
-                          id: todo.id,
-                          payload: { status: todo.status === "done" ? "pending" : "done" },
-                        })
-                      }
-                    />
-                    {todo.status === "done" ? "Done" : "Pending"}
-                  </label>
-                </div>
-                {confirmId === todo.id ? (
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => setConfirmId(null)}
-                      className="rounded border border-gray-300 px-2 py-1 text-xs"
-                      disabled={deleteTodo.isPending}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={() =>
-                        deleteTodo.mutate(todo.id, { onSuccess: () => setConfirmId(null) })
-                      }
-                      className="rounded bg-red-600 px-2 py-1 text-xs text-white disabled:opacity-50"
-                      disabled={deleteTodo.isPending}
-                    >
-                      {deleteTodo.isPending ? "Deleting..." : "Confirm"}
-                    </button>
+            <li key={todo.id}>
+              <Card>
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex flex-col">
+                    <span className="text-base font-semibold">{todo.title}</span>
+                    <label className="mt-1 flex items-center gap-2 text-xs text-gray-600">
+                      <input
+                        type="checkbox"
+                        checked={todo.status === "done"}
+                        disabled={updateTodo.isPending}
+                        onChange={() =>
+                          updateTodo.mutate({
+                            id: todo.id,
+                            payload: { status: todo.status === "done" ? "pending" : "done" },
+                          })
+                        }
+                      />
+                      {todo.status === "done" ? "Done" : "Pending"}
+                    </label>
                   </div>
-                ) : (
-                  <button
-                    onClick={() => setConfirmId(todo.id)}
-                    className="rounded border border-red-300 px-2 py-1 text-xs text-red-600"
-                  >
-                    Delete
-                  </button>
+                  {confirmId === todo.id ? (
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setConfirmId(null)}
+                        disabled={deleteTodo.isPending}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() =>
+                          deleteTodo.mutate(todo.id, { onSuccess: () => setConfirmId(null) })
+                        }
+                        disabled={deleteTodo.isPending}
+                      >
+                        {deleteTodo.isPending ? "Deleting..." : "Confirm"}
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button variant="outline" size="sm" onClick={() => setConfirmId(todo.id)}>
+                      Delete
+                    </Button>
+                  )}
+                </div>
+                {deleteTodo.isError && confirmId === todo.id && (
+                  <Alert className="mt-2">Failed to delete task</Alert>
                 )}
-              </div>
-              {deleteTodo.isError && confirmId === todo.id && (
-                <p className="mt-2 text-xs text-red-600">Failed to delete task</p>
-              )}
+              </Card>
             </li>
           ))}
         </ul>
