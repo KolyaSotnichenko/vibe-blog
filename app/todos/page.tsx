@@ -39,15 +39,8 @@ export default function TodosPage() {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
-      <aside className="hidden md:col-span-3 md:block">
-        <div className="rounded-md border bg-white p-4 text-sm text-gray-700">
-          <p className="mb-2 font-semibold">Feeds</p>
-          <p className="text-gray-500">All tasks</p>
-        </div>
-      </aside>
-
-      <section className="md:col-span-6">
+    <div className="grid grid-cols-1 gap-6">
+      <section>
         <div className="mb-4 rounded-md border bg-white p-4">
           <div className="flex items-center justify-between">
             <h1 className="text-lg font-semibold">Tasks</h1>
@@ -122,13 +115,6 @@ export default function TodosPage() {
           </ul>
         )}
       </section>
-
-      <aside className="hidden md:col-span-3 md:block">
-        <div className="rounded-md border bg-white p-4 text-sm text-gray-700">
-          <p className="mb-2 font-semibold">About</p>
-          <p className="text-gray-500">Simple Reddit-style task feed.</p>
-        </div>
-      </aside>
     </div>
   );
 }
