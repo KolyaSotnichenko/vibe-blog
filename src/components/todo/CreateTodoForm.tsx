@@ -44,7 +44,7 @@ export function CreateTodoForm() {
 
   return (
     <Card className="mb-6">
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-1">
           <Label htmlFor="title">Title</Label>
           <Input
@@ -64,7 +64,7 @@ export function CreateTodoForm() {
           />
         </div>
         {error && <Alert>{error}</Alert>}
-        <Button type="submit" disabled={createTodo.isPending}>
+        <Button type="submit" disabled={createTodo.isPending} className="mt-2">
           {createTodo.isPending ? "Creating..." : "Add task"}
         </Button>
       </form>

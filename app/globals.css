@@ -1,24 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fef3c7;
-  --foreground: #1f2937;
-  --muted: #4b5563;
-  --border: #f59e0b;
-  --radius-sm: 12px;
-  --radius-md: 20px;
-  --card: var(--background);
-  --card-foreground: var(--foreground);
-  --primary: 0 0% 9%;
-  --primary-foreground: 0 0% 98%;
-  --secondary: 0 0% 96.1%;
-  --secondary-foreground: 0 0% 9%;
-  --accent: 0 0% 96.1%;
-  --accent-foreground: 0 0% 9%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-  --input: 0 0% 89.8%;
-  --ring: 0 0% 3.9%;
+  --paper: #f4f1e9;
+  --ink: #1f1f1f;
+  --ink-muted: #555555;
+  --rule: #b9b1a6;
+  --radius-sm: 0px;
+  --radius-md: 0px;
 }
 
 @theme inline {
@@ -28,24 +16,14 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* Dark mode intentionally disabled for print-style theme */
 
 body {
-  background: linear-gradient(180deg, #fde68a, #fef3c7);
-  color: var(--foreground);
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-  font-size: 15px;
-  line-height: 1.6;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 16px;
+  line-height: 1.65;
 }
 
 @media (max-width: 640px) {
@@ -62,10 +40,14 @@ h4,
 h5,
 h6 {
   font-weight: 700;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  letter-spacing: -0.01em;
 }
 
 h1 {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
+  border-bottom: 2px solid var(--rule);
+  padding-bottom: 0.25rem;
 }
 h2 {
   font-size: 1.25rem;
@@ -75,7 +57,7 @@ h3 {
 }
 
 p {
-  color: var(--muted);
+  color: var(--ink-muted);
 }
 
 a {

@@ -17,11 +17,11 @@ export function TodoEditForm({ id, onDone }: { id: string; onDone?: () => void }
   const { data, isLoading, error } = useTodo(id);
 
   if (isLoading) {
-    return <p className="text-sm text-gray-600">Loading...</p>;
+    return <p className="text-sm text-ink-muted">Loading...</p>;
   }
 
   if (error || !data) {
-    return <p className="text-sm text-red-600">Failed to load task</p>;
+    return <p className="text-sm text-ink-muted">Failed to load task</p>;
   }
 
   return <InnerEditForm id={id} data={data} onDone={onDone} />;
@@ -68,7 +68,7 @@ function InnerEditForm({
 
   return (
     <Card>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-1">
           <Label htmlFor="title">Title</Label>
           <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -81,12 +81,12 @@ function InnerEditForm({
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-        <div className="flex items-center gap-2">
+        <div className="space-y-1">
           <Label>Status</Label>
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value as typeof status)}
-            className="rounded-md border border-input bg-background px-2 py-1 text-sm"
+            className="w-full border border-rule bg-paper px-2 py-1 text-sm font-serif text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rule"
           >
             <option value="pending">Pending</option>
             <option value="in_progress">In progress</option>
@@ -94,7 +94,7 @@ function InnerEditForm({
           </select>
         </div>
         {formError && <Alert>{formError}</Alert>}
-        <Button type="submit" disabled={updateTodo.isPending}>
+        <Button type="submit" disabled={updateTodo.isPending} className="mt-2">
           {updateTodo.isPending ? "Saving..." : "Save changes"}
         </Button>
       </form>
