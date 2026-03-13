@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useDeleteTodo } from "@/src/api/todo/mutations";
 import { useUpdateTodo } from "@/src/api/todo/mutations";
 import { useState } from "react";
+import { Button } from "@/src/components/ui/button";
 
 export default function TodosPage() {
   const { data, isLoading, isError, refetch } = useTodos();
@@ -42,11 +43,8 @@ export default function TodosPage() {
     <div className="mx-auto max-w-3xl p-6">
       <h1 className="mb-6 text-2xl font-bold text-orange-600">ToDo</h1>
       <div className="mb-6">
-        <Link
-          href="/todos/new"
-          className="inline-block rounded bg-orange-600 px-4 py-2 text-sm font-semibold text-white"
-        >
-          Create task
+        <Link href="/todos/new">
+          <Button>Create task</Button>
         </Link>
       </div>
       {data && data.length === 0 ? (
@@ -78,30 +76,20 @@ export default function TodosPage() {
                 </div>
                 {confirmId === todo.id ? (
                   <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => setConfirmId(null)}
-                      className="rounded border border-gray-300 px-2 py-1 text-xs"
-                      disabled={deleteTodo.isPending}
-                    >
+                    <Button onClick={() => setConfirmId(null)} disabled={deleteTodo.isPending}>
                       Cancel
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       onClick={() =>
                         deleteTodo.mutate(todo.id, { onSuccess: () => setConfirmId(null) })
                       }
-                      className="rounded bg-red-600 px-2 py-1 text-xs text-white disabled:opacity-50"
                       disabled={deleteTodo.isPending}
                     >
                       {deleteTodo.isPending ? "Deleting..." : "Confirm"}
-                    </button>
+                    </Button>
                   </div>
                 ) : (
-                  <button
-                    onClick={() => setConfirmId(todo.id)}
-                    className="rounded border border-red-300 px-2 py-1 text-xs text-red-600"
-                  >
-                    Delete
-                  </button>
+                  <Button onClick={() => setConfirmId(todo.id)}>Delete</Button>
                 )}
               </div>
               {deleteTodo.isError && confirmId === todo.id && (

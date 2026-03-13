@@ -4,6 +4,10 @@ import { useState } from "react";
 import { useTodo } from "@/src/api/todo/queries";
 import { useUpdateTodo } from "@/src/api/todo/mutations";
 import type { components } from "@/src/api/generated";
+import { Button } from "@/src/components/ui/button";
+import { Input } from "@/src/components/ui/input";
+import { Textarea } from "@/src/components/ui/textarea";
+import { Label } from "@/src/components/ui/label";
 
 type UpdateTodoRequest = components["schemas"]["UpdateTodoRequest"];
 
@@ -61,22 +65,14 @@ function InnerEditForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="rounded border border-gray-200 p-4">
+    <form onSubmit={handleSubmit} className="rounded border p-4">
       <div className="mb-3">
-        <label className="mb-1 block text-sm text-gray-700">Title</label>
-        <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring"
-        />
+        <Label className="mb-1 block">Title</Label>
+        <Input value={title} onChange={(e) => setTitle(e.target.value)} />
       </div>
       <div className="mb-3">
-        <label className="mb-1 block text-sm text-gray-700">Description</label>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring"
-        />
+        <Label className="mb-1 block">Description</Label>
+        <Textarea value={description} onChange={(e) => setDescription(e.target.value)} />
       </div>
       <div className="mb-4 flex items-center gap-2">
         <label className="text-sm text-gray-700">Status</label>
@@ -91,13 +87,9 @@ function InnerEditForm({
         </select>
       </div>
       {formError && <p className="mb-3 text-sm text-red-600">{formError}</p>}
-      <button
-        type="submit"
-        disabled={updateTodo.isPending}
-        className="rounded bg-black px-4 py-2 text-sm text-white disabled:opacity-50"
-      >
+      <Button type="submit" disabled={updateTodo.isPending}>
         {updateTodo.isPending ? "Saving..." : "Save changes"}
-      </button>
+      </Button>
     </form>
   );
 }
