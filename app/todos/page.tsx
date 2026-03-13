@@ -1,7 +1,7 @@
 "use client";
 
 import { useTodos } from "@/src/api/todo/queries";
-import { CreateTodoForm } from "@/src/components/todo/CreateTodoForm";
+import Link from "next/link";
 import { useDeleteTodo } from "@/src/api/todo/mutations";
 import { useState } from "react";
 
@@ -39,7 +39,14 @@ export default function TodosPage() {
   return (
     <div className="mx-auto max-w-3xl p-6">
       <h1 className="mb-6 text-2xl font-bold text-orange-600">ToDo</h1>
-      <CreateTodoForm />
+      <div className="mb-6">
+        <Link
+          href="/todos/new"
+          className="inline-block rounded bg-orange-600 px-4 py-2 text-sm font-semibold text-white"
+        >
+          Create task
+        </Link>
+      </div>
       {data && data.length === 0 ? (
         <p className="text-sm text-gray-500">No tasks yet</p>
       ) : (
