@@ -6,10 +6,10 @@ export const todoKeys = {
   detail: (id: string) => ["todos", id] as const,
 };
 
-export function useTodos() {
+export function useTodos(search?: string) {
   return useQuery({
-    queryKey: todoKeys.all,
-    queryFn: () => todoService.list(),
+    queryKey: [...todoKeys.all, search ?? ""],
+    queryFn: () => todoService.list({ search }),
   });
 }
 

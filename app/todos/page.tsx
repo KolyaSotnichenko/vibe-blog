@@ -8,9 +8,13 @@ import { useState } from "react";
 import { Button } from "@/src/components/ui/button";
 import { Card } from "@/src/components/ui/card";
 import { Alert } from "@/src/components/ui/alert";
+import { Input } from "@/src/components/ui/input";
+import { useDebouncedValue } from "@/src/hooks/useDebouncedValue";
 
 export default function TodosPage() {
-  const { data, isLoading, isError, refetch } = useTodos();
+  const [search, setSearch] = useState<string>("");
+  const debouncedSearch = useDebouncedValue(search, 300);
+  const { data, isLoading, isError, refetch } = useTodos(debouncedSearch);
   const deleteTodo = useDeleteTodo();
   const updateTodo = useUpdateTodo();
   const [confirmId, setConfirmId] = useState<string | null>(null);
@@ -42,11 +46,18 @@ export default function TodosPage() {
     <div className="grid grid-cols-1 gap-6">
       <section>
         <div className="mb-4 rounded-md border bg-white p-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-4">
             <h1 className="text-lg font-semibold">Tasks</h1>
-            <Button size="sm" asChild>
-              <Link href="/todos/new">Create</Link>
-            </Button>
+            <div className="flex items-center gap-2">
+              <Input
+                placeholder="Search tasks..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <Button size="sm" asChild>
+                <Link href="/todos/new">Create</Link>
+              </Button>
+            </div>
           </div>
         </div>
 
