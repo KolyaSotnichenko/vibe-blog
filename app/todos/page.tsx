@@ -23,7 +23,7 @@ export default function TodosPage() {
   const deleteTodo = useDeleteTodo();
   const updateTodo = useUpdateTodo();
   const [confirmId, setConfirmId] = useState<string | null>(null);
-  const { selectedIds, toggle, clear } = useBulkTodoSelection();
+  const { selectedIds, clear } = useBulkTodoSelection();
   const [bulkLoading, setBulkLoading] = useState<boolean>(false);
   const [bulkError, setBulkError] = useState<string | null>(null);
   const exportTodosCsv = useExportTodosCsv();
@@ -56,30 +56,30 @@ export default function TodosPage() {
   const paginatedData = data ? data.slice(startIndex, startIndex + PAGE_SIZE) : [];
 
   return (
-    <div className="grid grid-cols-1 gap-6">
-      <section>
-        <div className="mb-4 rounded-md border bg-white p-4">
-          <div className="flex items-center justify-between gap-4">
-            <h1 className="text-lg font-semibold">Tasks</h1>
-            <div className="flex items-center gap-2">
-              <Input
-                placeholder="Search tasks..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <Button
-                size="sm"
-                variant="outline"
-                disabled={!data || data.length === 0}
-                onClick={() => exportTodosCsv(paginatedData)}
-              >
-                Export CSV
-              </Button>
-              <Button size="sm" asChild>
-                <Link href="/todos/new">Create</Link>
-              </Button>
-            </div>
-          </div>
+    <div className="mx-auto max-w-3xl px-4 py-6">
+      <section className="space-y-4">
+        <header className="flex items-center justify-between">
+          <h1 className="text-xl font-semibold tracking-tight">Tasks</h1>
+          <Button size="sm" asChild>
+            <Link href="/todos/new">New task</Link>
+          </Button>
+        </header>
+
+        <div className="flex items-center gap-2">
+          <Input
+            placeholder="Search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="h-9"
+          />
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={!data || data.length === 0}
+            onClick={() => exportTodosCsv(paginatedData)}
+          >
+            Export
+          </Button>
         </div>
 
         {data && data.length === 0 ? (
@@ -109,38 +109,34 @@ export default function TodosPage() {
                 {bulkError && <Alert>{bulkError}</Alert>}
               </div>
             )}
-            <ul className="space-y-3">
+            <ul className="divide-y rounded-md border bg-white">
               {paginatedData.map((todo) => (
                 <li key={todo.id}>
-                  <Card className="hover:bg-gray-50">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex flex-col">
-                        <label className="mb-1 flex items-center gap-2 text-xs">
-                          <input
-                            type="checkbox"
-                            checked={selectedIds.has(todo.id)}
-                            disabled={bulkLoading}
-                            onChange={() => toggle(todo.id)}
-                          />
-                          Select
-                        </label>
-                        <span className="text-base font-medium">{todo.title}</span>
-                        <label className="mt-2 flex items-center gap-2 text-xs text-gray-600">
-                          <input
-                            type="checkbox"
-                            checked={todo.status === "done"}
-                            disabled={updateTodo.isPending}
-                            onChange={() =>
-                              updateTodo.mutate({
-                                id: todo.id,
-                                payload: {
-                                  status: todo.status === "done" ? "pending" : "done",
-                                },
-                              })
-                            }
-                          />
-                          {todo.status === "done" ? "Completed" : "Pending"}
-                        </label>
+                  <Card className="rounded-none border-0 shadow-none">
+                    <div className="flex items-center justify-between px-4 py-3">
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="checkbox"
+                          checked={todo.status === "done"}
+                          disabled={updateTodo.isPending}
+                          onChange={() =>
+                            updateTodo.mutate({
+                              id: todo.id,
+                              payload: {
+                                status: todo.status === "done" ? "pending" : "done",
+                              },
+                            })
+                          }
+                        />
+                        <span
+                          className={
+                            todo.status === "done"
+                              ? "text-sm text-gray-400 line-through"
+                              : "text-sm"
+                          }
+                        >
+                          {todo.title}
+                        </span>
                       </div>
 
                       {confirmId === todo.id ? (
