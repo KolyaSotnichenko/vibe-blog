@@ -12,6 +12,7 @@ import { Card } from "@/src/components/ui/card";
 import { Alert } from "@/src/components/ui/alert";
 import { Input } from "@/src/components/ui/input";
 import { useDebouncedValue } from "@/src/hooks/useDebouncedValue";
+import { useExportTodosCsv } from "@/src/hooks/useExportTodosCsv";
 
 export default function TodosPage() {
   const [search, setSearch] = useState<string>("");
@@ -25,6 +26,7 @@ export default function TodosPage() {
   const { selectedIds, toggle, clear } = useBulkTodoSelection();
   const [bulkLoading, setBulkLoading] = useState<boolean>(false);
   const [bulkError, setBulkError] = useState<string | null>(null);
+  const exportTodosCsv = useExportTodosCsv();
 
   if (isLoading) {
     return (
@@ -65,6 +67,14 @@ export default function TodosPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
+              <Button
+                size="sm"
+                variant="outline"
+                disabled={!data || data.length === 0}
+                onClick={() => exportTodosCsv(paginatedData)}
+              >
+                Export CSV
+              </Button>
               <Button size="sm" asChild>
                 <Link href="/todos/new">Create</Link>
               </Button>
