@@ -1,24 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fef3c7;
-  --foreground: #1f2937;
-  --muted: #4b5563;
-  --border: #f59e0b;
-  --radius-sm: 12px;
-  --radius-md: 20px;
-  --card: var(--background);
-  --card-foreground: var(--foreground);
-  --primary: 0 0% 9%;
-  --primary-foreground: 0 0% 98%;
-  --secondary: 0 0% 96.1%;
-  --secondary-foreground: 0 0% 9%;
-  --accent: 0 0% 96.1%;
-  --accent-foreground: 0 0% 9%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-  --input: 0 0% 89.8%;
-  --ring: 0 0% 3.9%;
+  --paper-bg: #f4f1ea;
+  --ink: #1a1a1a;
+  --ink-muted: #4a4a4a;
+  --border-ink: #2b2b2b;
 }
 
 @theme inline {
@@ -36,16 +22,11 @@
 }
 
 body {
-  background: linear-gradient(180deg, #fde68a, #fef3c7);
-  color: var(--foreground);
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-  font-size: 15px;
-  line-height: 1.6;
+  background: var(--paper-bg);
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 16px;
+  line-height: 1.7;
 }
 
 @media (max-width: 640px) {
@@ -75,7 +56,8 @@ h3 {
 }
 
 p {
-  color: var(--muted);
+  color: var(--ink);
+  margin: 0.75rem 0;
 }
 
 a {
