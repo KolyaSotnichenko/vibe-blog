@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useUpdateTodo, useDeleteTodo } from "@/src/api/todo/mutations";
 import type { components } from "@/src/api/generated";
 import { todoService } from "@/src/api/todo/todoService";
 
@@ -12,22 +13,24 @@ type Props = {
 
 export function TodoActions({ todo }: Props) {
   const router = useRouter();
+  const updateTodo = useUpdateTodo();
+  const deleteTodo = useDeleteTodo();
 
   async function onDelete() {
-    await todoService.remove(todo.id);
+    await deleteTodo.mutateAsync(todo.id);
     router.push("/todos");
   }
 
   async function onToggleComplete() {
-    await todoService.update(todo.id, { completed: !todo.completed });
-    router.refresh();
+    updateTodo.mutate({ id: todo.id, payload: { completed: !todo.completed } });
   }
 
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
       <button
         onClick={onToggleComplete}
-        className="rounded-md bg-black px-4 py-2 text-sm text-white"
+        disabled={updateTodo.isLoading}
+        className="rounded-md bg-black px-4 py-2 text-sm text-white disabled:opacity-50"
       >
         {todo.completed ? "Reopen" : "Complete"}
       </button>
